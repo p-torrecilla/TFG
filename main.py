@@ -4,6 +4,10 @@ import pandas as pd
 # Read the ID from the test CSV file
 data = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
+# Create a version with all the data to see the column names
+data2 = pd.read_csv('malware-detection/test_data.csv')
+print(data2.columns)
+
 # Add the column with the (fake) predictions
 data["Prediction"] = 0
 

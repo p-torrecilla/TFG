@@ -1,4 +1,4 @@
-#The Kaggle prediction was:
+# The Kaggle prediction was:
 #   Private score: 0.50198
 #   Public score: 0.49863
 

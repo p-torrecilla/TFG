@@ -5,11 +5,8 @@ import pandas as pd
 data = pd.read_csv('malware-detection/tek_data.csv')
 
 
-excel = "values_frequency.xlsx"
-
-
-# Create an Excel writer object
-with pd.ExcelWriter(excel) as writer:
+# Create an Excel writer
+with pd.ExcelWriter("values_frequency.xlsx") as writer:
     # Iterate over each column to calculate value frequencies
     for column in data.columns:
         value_counts = data[column].value_counts(normalize=True) * 100

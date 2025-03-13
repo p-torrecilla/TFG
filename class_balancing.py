@@ -14,6 +14,7 @@ for i in data.columns:
     for count, patch in zip(counts, patches):
         height = patch.get_height()
         x = patch.get_x() + patch.get_width() / 2
+        # Writing a label with the exact amount on each column
         plt.text(x, height, int(count), ha='center', va='bottom', fontsize=10, color='black')
 
 

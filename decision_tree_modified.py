@@ -2,6 +2,8 @@
 import pandas as pd
 from sklearn import tree
 import graphviz
+from collections import Counter
+from imblearn.under_sampling import RandomUnderSampler
 
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
@@ -37,6 +39,11 @@ columns = [
 ]
 X = data[columns]
 y = data['legitimate']
+
+undersampler = RandomUnderSampler(random_state=42)
+X_res, y_res = undersampler.fit_resample(X, y)
+ 
+print(Counter(y_res))
 
 # Train the model and set the seed as 1410
 clf = tree.DecisionTreeClassifier(random_state=1410)

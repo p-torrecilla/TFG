@@ -17,7 +17,7 @@ unique_columns = []
 
 # Checks every column to see if they have null values
 for i in data.columns:
-    if not null_data[i].all():
+    if not null_data[i].any():
         null_columns.append(i)
 
     temp_set = set(data[i])

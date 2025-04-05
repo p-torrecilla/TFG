@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 # Pull the data from the file
 data = pd.read_csv('malware-detection/tek_data.csv')
 
-print(data.describe())
 
 # For each column, show the histogram
 for i in data.columns:

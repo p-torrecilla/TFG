@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 # Pull the data from the file
 data = pd.read_csv('malware-detection/tek_data.csv')
 
+print(data.describe())
 
 # For each column, show the histogram
 for i in data.columns:
+    '''
     counts, bins, patches = plt.hist(data[i], color='#850501', edgecolor='black')
     
     for count, patch in zip(counts, patches):
@@ -25,3 +27,11 @@ for i in data.columns:
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     
     plt.show()
+    '''
+    # Crating the pie chart for the 'legitimate' column distribution
+    if i == 'legitimate':
+        value_counts = data[i].value_counts()
+        plt.figure(figsize=(6, 6))
+        plt.pie(value_counts, colors=["r", "k"], labels=value_counts.index, explode=[0, 0.1], shadow=True)
+        plt.title(i)
+        plt.show()

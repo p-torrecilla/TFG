@@ -31,6 +31,6 @@ for i in data.columns:
     if i == 'legitimate':
         value_counts = data[i].value_counts()
         plt.figure(figsize=(6, 6))
-        plt.pie(value_counts, colors=["r", "k"], labels=value_counts.index, explode=[0, 0.1], shadow=True)
+        plt.pie(value_counts, colors=["r", "#636363"], labels=value_counts.index, explode=[0, 0.1], shadow=True, autopct='%1.1f%%')
         plt.title(i)
         plt.show()

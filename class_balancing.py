@@ -1,6 +1,7 @@
 # Import library to work with CSV files
 import pandas as pd
 import matplotlib.pyplot as plt
+from imblearn.under_sampling import RandomUnderSampler
 
 
 # Pull the data from the file
@@ -30,6 +31,18 @@ for i in data.columns:
     # Crating the pie chart for the 'legitimate' column distribution
     if i == 'legitimate':
         value_counts = data[i].value_counts()
+        plt.figure(figsize=(6, 6))
+        plt.pie(value_counts, colors=["r", "#636363"], labels=value_counts.index, explode=[0, 0.1], shadow=True, autopct='%1.1f%%')
+        plt.title(i)
+        plt.show()
+
+
+        # Distribution of 'legitimate' after applying the undersampler
+        X = data
+        y = data['legitimate']
+        undersampler = RandomUnderSampler(random_state=1410)
+        X_res, y_res = undersampler.fit_resample(X, y)
+        value_counts = X_res[i].value_counts()
         plt.figure(figsize=(6, 6))
         plt.pie(value_counts, colors=["r", "#636363"], labels=value_counts.index, explode=[0, 0.1], shadow=True, autopct='%1.1f%%')
         plt.title(i)

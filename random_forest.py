@@ -1,6 +1,7 @@
 # Import libraries to work with CSV files and to graph the trees
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+from imblearn.under_sampling import RandomUnderSampler
 import time
 
 start_time = time.time()
@@ -43,9 +44,12 @@ X = data[columns]
 y = data['legitimate']
 
 
+undersampler = RandomUnderSampler(random_state=1410)
+X_res, y_res = undersampler.fit_resample(X, y)
+
 # Initialize and train the Random Forest Classifier
 clf = RandomForestClassifier(n_estimators=100, random_state=1410)
-clf.fit(X, y)
+clf.fit(X_res, y_res)
 
 
 # Predict the data
@@ -62,4 +66,4 @@ data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-#data_2.to_csv('Epsilon.csv', index=False)
+data_2.to_csv('Epsilon_modified.csv', index=False)

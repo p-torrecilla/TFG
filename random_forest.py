@@ -44,12 +44,9 @@ X = data[columns]
 y = data['legitimate']
 
 
-undersampler = RandomUnderSampler(random_state=1410)
-X_res, y_res = undersampler.fit_resample(X, y)
-
 # Initialize and train the Random Forest Classifier
-clf = RandomForestClassifier(n_estimators=100, random_state=1410)
-clf.fit(X_res, y_res)
+clf = RandomForestClassifier(n_estimators=100, random_state=1410, class_weight='balanced')
+clf.fit(X, y)
 
 
 # Predict the data

@@ -5,6 +5,9 @@ from sklearn import tree
 from sklearn.discriminant_analysis import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import MinMaxScaler
+import time
+
+start_time = time.time()
 
 
 # Pull the data from the file
@@ -64,12 +67,16 @@ def dec_tree():
     predict_data = predict_data[columns]
     prediction = clf.predict(predict_data)
 
+    end_time_dt = time.time()
+    total_duration_dt = end_time_dt - start_time
+    print(f"Time DT: {total_duration_dt:.2f} seconds")
+
     # Read the ID from the test CSV file
     data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
     # Creates the column for the predictions
     data_2["Prediction"] = prediction
-    data_2.to_csv('Zeta.csv', index=False)
+    #data_2.to_csv('Zeta.csv', index=False)
 
 def rand_forest():
     # Initialize and train the Random Forest Classifier
@@ -80,6 +87,10 @@ def rand_forest():
     predict_data = pd.read_csv('malware-detection/test_data.csv', header=0)
     predict_data = predict_data[columns]
     prediction = clf.predict(predict_data)
+
+    end_time_rf = time.time()
+    total_duration_rf = end_time_rf - start_time
+    print(f"Time RF: {total_duration_rf:.2f} seconds")
 
     # Read the ID from the test CSV file
     data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])

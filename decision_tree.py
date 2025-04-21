@@ -2,6 +2,9 @@
 import pandas as pd
 from sklearn import tree
 import graphviz
+import time
+
+start_time = time.time()
 
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
@@ -28,6 +31,10 @@ predict_data = pd.read_csv('malware-detection/test_data.csv', usecols=range(1,55
 predict_data = predict_data.drop(columns=["ID"], errors='ignore')
 predict_data = predict_data.drop(columns=["Machine"])
 prediction = clf.predict(predict_data)
+
+end_time = time.time()
+total_duration = end_time - start_time
+print(f"Time: {total_duration:.2f} seconds")
 
 # Read the ID from the test CSV file
 data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])

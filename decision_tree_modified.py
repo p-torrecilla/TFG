@@ -4,6 +4,9 @@ from sklearn import tree
 import graphviz
 from collections import Counter
 from imblearn.under_sampling import RandomUnderSampler
+import time
+
+start_time = time.time()
 
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
@@ -42,12 +45,11 @@ y = data['legitimate']
 
 undersampler = RandomUnderSampler(random_state=1410)
 X_res, y_res = undersampler.fit_resample(X, y)
- 
-print(Counter(y_res))
+
 
 # Train the model and set the seed as 1410
 clf = tree.DecisionTreeClassifier(random_state=1410)
-clf = clf.fit(X, y)
+clf = clf.fit(X_res, y_res)
 
 # Print plot
 
@@ -66,9 +68,13 @@ predict_data = predict_data[columns]
 print(predict_data)
 prediction = clf.predict(predict_data)
 
+end_time = time.time()
+total_duration = end_time - start_time
+print(f"Time: {total_duration:.2f} seconds")
+
 # Read the ID from the test CSV file
 data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Delta.csv', index=False)
+data_2.to_csv('Delta_modified.csv', index=False)

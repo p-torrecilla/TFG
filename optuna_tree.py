@@ -7,6 +7,7 @@ import pandas as pd
 import graphviz
 from imblearn.under_sampling import RandomUnderSampler
 
+start_time = time.time()
 
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
@@ -45,6 +46,9 @@ y = data['legitimate']
 undersampler = RandomUnderSampler(random_state=1410)
 X_res, y_res = undersampler.fit_resample(X, y)
 
+end_reading_time = time.time()
+reading_time = end_reading_time - start_time
+
 # Objective function for Optuna
 def objective(trial):
     max_depth = trial.suggest_int("max_depth", 2, 32, log=True)
@@ -73,8 +77,8 @@ optuna_duration = end_optuna - start_optuna
 print("Best parameters:", study.best_params)
 print(f"Optimization time: {optuna_duration:.2f} seconds")
 
-# Timer: Training + classification
-start_time = time.time()
+# Timer
+start_tree = time.time()
 
 best_clf = DecisionTreeClassifier(**study.best_params, random_state=1410)
 best_clf.fit(X_res, y_res)
@@ -86,8 +90,8 @@ predict_data = predict_data[columns]
 prediction = best_clf.predict(predict_data)
 
 
-end_time = time.time()
-total_duration = end_time - start_time
+end_tree_time = time.time()
+total_duration = end_tree_time - start_tree + reading_time
 print(f"Time: {total_duration:.2f} seconds")
 
 # Read the ID from the test CSV file

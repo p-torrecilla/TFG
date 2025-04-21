@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
 import pandas as pd
 
+start_time = time.time()
+
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
 
@@ -42,6 +44,9 @@ y = data['legitimate']
 # Split the dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1410)
 
+end_reading_time = time.time()
+reading_time = end_reading_time - start_time
+
 # Objective function for Optuna
 def objective(trial):
     n_estimators = trial.suggest_int("n_estimators", 2, 100)
@@ -74,7 +79,7 @@ print(f"Optimization time: {optuna_duration:.2f} seconds")
 
 
 # Train final model with best parameters
-start_time = time.time()
+start_forest = time.time()
 best_clf = RandomForestClassifier(**study.best_params, random_state=1410)
 best_clf.fit(X_train, y_train)
 
@@ -84,8 +89,8 @@ predict_data = pd.read_csv('malware-detection/test_data.csv', header=0)
 predict_data = predict_data[columns]
 prediction = best_clf.predict(predict_data)
 
-end_time = time.time()
-total_duration = end_time - start_time
+end_forest_time = time.time()
+total_duration = end_forest_time - start_forest + reading_time
 print(f"Time: {total_duration:.2f} seconds")
 
 # Read the ID from the test CSV file

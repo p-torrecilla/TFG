@@ -69,7 +69,7 @@ def objective(trial):
 start_optuna = time.time()
 
 study = optuna.create_study(direction="maximize")
-study.optimize(objective, n_trials=50)
+study.optimize(objective, n_trials=100)
 
 end_optuna = time.time()
 optuna_duration = end_optuna - start_optuna

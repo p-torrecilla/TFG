@@ -62,7 +62,7 @@ def objective(trial):
         random_state=1410
     )
 
-    score = cross_val_score(clf, X_res, y_res, cv=5, scoring="accuracy")
+    score = cross_val_score(clf, X_res, y_res, cv=10, scoring="accuracy")
     return score.mean()
 
 # Timer: Optuna optimization

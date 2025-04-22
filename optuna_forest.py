@@ -57,10 +57,11 @@ def objective(trial):
         n_estimators=n_estimators,
         max_depth=max_depth,
         max_features=max_features,
+        class_weight='balanced',
         random_state=1410
     )
 
-    score = cross_val_score(clf, X_train, y_train, cv=5, scoring="accuracy")
+    score = cross_val_score(clf, X_train, y_train, cv=10, scoring="accuracy")
     return score.mean()
 
 # Run Optuna optimization

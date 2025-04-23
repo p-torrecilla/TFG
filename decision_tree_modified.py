@@ -2,7 +2,8 @@
 import pandas as pd
 from sklearn import tree
 import graphviz
-from collections import Counter
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 from imblearn.under_sampling import RandomUnderSampler
 import time
 
@@ -43,13 +44,20 @@ columns = [
 X = data[columns]
 y = data['legitimate']
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1410)
+
 undersampler = RandomUnderSampler(random_state=1410)
-X_res, y_res = undersampler.fit_resample(X, y)
+X_res, y_res = undersampler.fit_resample(X_train, y_train)
 
 
 # Train the model and set the seed as 1410
 clf = tree.DecisionTreeClassifier(random_state=1410)
 clf = clf.fit(X_res, y_res)
+
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.5f}")
 
 # Print plot
 
@@ -65,7 +73,6 @@ graph.render('tek_tree_cleaned_variables', view=True).replace('\\', '/')
 # Predict the data
 predict_data = pd.read_csv('malware-detection/test_data.csv', header=0)
 predict_data = predict_data[columns]
-print(predict_data)
 prediction = clf.predict(predict_data)
 
 end_time = time.time()

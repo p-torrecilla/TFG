@@ -2,6 +2,8 @@
 import pandas as pd
 from sklearn import tree
 import graphviz
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 import time
 
 start_time = time.time()
@@ -13,9 +15,16 @@ data = pd.read_csv('malware-detection/tek_data.csv')
 X = data.drop(columns=['ID', 'Machine', 'legitimate'])
 y = data['legitimate']
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1410)
+
 # Train the model and set the seed as 1410
 clf = tree.DecisionTreeClassifier(random_state=1410)
-clf = clf.fit(X, y)
+clf = clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.5f}")
 
 # Print plot
 dot_data = tree.export_graphviz(clf, out_file=None,

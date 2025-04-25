@@ -83,6 +83,7 @@ print(f"Optimization time: {optuna_duration:.2f} seconds")
 start_forest = time.time()
 best_clf = RandomForestClassifier(**study.best_params, random_state=1410)
 best_clf.fit(X_train, y_train)
+y_pred = best_clf.predict(X_test)
 
 # Evaluate on test set
 # Predict the data
@@ -93,6 +94,9 @@ prediction = best_clf.predict(predict_data)
 end_forest_time = time.time()
 total_duration = end_forest_time - start_forest + reading_time
 print(f"Time: {total_duration:.2f} seconds")
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.5f}")
 
 # Read the ID from the test CSV file
 data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])

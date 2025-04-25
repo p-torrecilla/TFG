@@ -1,7 +1,7 @@
 import time
 import optuna
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
 import pandas as pd
 import graphviz
@@ -46,6 +46,8 @@ y = data['legitimate']
 undersampler = RandomUnderSampler(random_state=1410)
 X_res, y_res = undersampler.fit_resample(X, y)
 
+X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, random_state=1410)
+
 end_reading_time = time.time()
 reading_time = end_reading_time - start_time
 
@@ -62,7 +64,7 @@ def objective(trial):
         random_state=1410
     )
 
-    score = cross_val_score(clf, X_res, y_res, cv=10, scoring="accuracy")
+    score = cross_val_score(clf, X_train, y_train, cv=10, scoring="accuracy")
     return score.mean()
 
 # Timer: Optuna optimization
@@ -81,7 +83,8 @@ print(f"Optimization time: {optuna_duration:.2f} seconds")
 start_tree = time.time()
 
 best_clf = DecisionTreeClassifier(**study.best_params, random_state=1410)
-best_clf.fit(X_res, y_res)
+best_clf.fit(X_train, y_train)
+y_pred = best_clf.predict(X_test)
 
 
 # Predict the data
@@ -94,23 +97,26 @@ end_tree_time = time.time()
 total_duration = end_tree_time - start_tree + reading_time
 print(f"Time: {total_duration:.2f} seconds")
 
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.4f}")
+
 # Read the ID from the test CSV file
 data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Theta.csv', index=False)
+data_2.to_csv('Theta2.csv', index=False)
 
 
 # Visualize the tree
-dot_data = export_graphviz(
-    best_clf,
-    out_file=None,
-    feature_names=X.columns,
-    filled=True,
-    rounded=True,
-    special_characters=True
-)
+#dot_data = export_graphviz(
+#    best_clf,
+#    out_file=None,
+#    feature_names=X.columns,
+#    filled=True,
+#    rounded=True,
+#    special_characters=True
+#)
 
-graph = graphviz.Source(dot_data)
-graph.render("decision_tree", format="png", cleanup=True)
+#graph = graphviz.Source(dot_data)
+#graph.render("decision_tree", format="png", cleanup=True)

@@ -98,14 +98,14 @@ total_duration = end_tree_time - start_tree + reading_time
 print(f"Time: {total_duration:.2f} seconds")
 
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy:.4f}")
+print(f"Accuracy: {accuracy:.5f}")
 
 # Read the ID from the test CSV file
 data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Theta2.csv', index=False)
+data_2.to_csv('Theta.csv', index=False)
 
 
 # Visualize the tree

@@ -109,14 +109,15 @@ data_2.to_csv('Theta.csv', index=False)
 
 
 # Visualize the tree
-#dot_data = export_graphviz(
-#    best_clf,
-#    out_file=None,
-#    feature_names=X.columns,
-#    filled=True,
-#    rounded=True,
-#    special_characters=True
-#)
+dot_data = export_graphviz(
+    best_clf,
+    out_file=None,
+    feature_names=X.columns,
+    class_names=["Malware", "Legitimate"],
+    filled=True,
+    rounded=True,
+    special_characters=True
+)
 
-#graph = graphviz.Source(dot_data)
-#graph.render("decision_tree", format="png", cleanup=True)
+graph = graphviz.Source(dot_data)
+graph.render("decision_tree", format="png", cleanup=True)

@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="ImageBase <= 14942208.0\n138047\n[96701.0, 41346.0]\nMalware", fillcolor="#f0b78e"] ;
+1 [label="Subsystem <= 2.0\n100389\n[95474, 4915]\nMalware", fillcolor="#e68743"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="MajorOperatingSystemVersion <= 6.0\n96799\n[95218.0, 1581.0]\nMalware", fillcolor="#e5833c"] ;
+1 -> 2 ;
+3 [label="95922\n[95146.0, 776.0]\nMalware", fillcolor="#e5823b"] ;
+2 -> 3 ;
+4 [label="877\n[72, 805]\nLegitimate", fillcolor="#4ba6e7"] ;
+2 -> 4 ;
+5 [label="SectionsMinRawsize <= 256.0\n3590\n[256, 3334]\nLegitimate", fillcolor="#48a5e7"] ;
+1 -> 5 ;
+6 [label="120\n[112, 8]\nMalware", fillcolor="#e78a47"] ;
+5 -> 6 ;
+7 [label="3470\n[144, 3326]\nLegitimate", fillcolor="#42a1e6"] ;
+5 -> 7 ;
+8 [label="ResourcesMeanEntropy <= 1.0\n37658\n[1227, 36431]\nLegitimate", fillcolor="#40a0e6"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="ExportNb <= 155.0\n234\n[197, 37]\nMalware", fillcolor="#ea995e"] ;
+8 -> 9 ;
+10 [label="203\n[186, 17]\nMalware", fillcolor="#e78d4b"] ;
+9 -> 10 ;
+11 [label="31\n[11, 20]\nLegitimate", fillcolor="#a6d3f3"] ;
+9 -> 11 ;
+12 [label="ResourcesMinEntropy <= 4.0\n37424\n[1030, 36394]\nLegitimate", fillcolor="#3fa0e6"] ;
+8 -> 12 ;
+13 [label="37227\n[914, 36313]\nLegitimate", fillcolor="#3e9fe6"] ;
+12 -> 13 ;
+14 [label="197\n[116, 81]\nMalware", fillcolor="#f7d9c3"] ;
+12 -> 14 ;
+}

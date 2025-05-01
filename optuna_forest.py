@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
 import pandas as pd
+import pickle 
 
 start_time = time.time()
 
@@ -83,9 +84,21 @@ print(f"Optimization time: {optuna_duration:.2f} seconds")
 start_forest = time.time()
 best_clf = RandomForestClassifier(**study.best_params, random_state=1410)
 best_clf.fit(X_train, y_train)
+
+# save the model
+filename = 'optuna_random_forest.sav'
+#pickle.dump(best_clf, open(filename, 'wb'))
+  
+# load the model
+load_model = pickle.load(open(filename, 'rb'))
+
+loaded_pred = load_model.predict(X_test)
+loaded_accuracy = accuracy_score(y_test, loaded_pred)
+print(f"Accuracy: {loaded_accuracy:.5f}")
+
+
 y_pred = best_clf.predict(X_test)
 
-# Evaluate on test set
 # Predict the data
 predict_data = pd.read_csv('malware-detection/test_data.csv', header=0)
 predict_data = predict_data[columns]

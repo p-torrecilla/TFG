@@ -50,9 +50,9 @@ reading_time = end_reading_time - start_time
 
 # Objective function for Optuna
 def objective(trial):
-    n_estimators = trial.suggest_int("n_estimators", 2, 100)
+    n_estimators = trial.suggest_int("n_estimators", 20, 100)
     max_depth = trial.suggest_int("max_depth", 2, 32, log=True)
-    max_features = trial.suggest_categorical("max_features", ["sqrt", "log2", None])
+    max_features = trial.suggest_categorical("max_features", ["sqrt", "log2"])
 
     clf = RandomForestClassifier(
         n_estimators=n_estimators,
@@ -87,8 +87,8 @@ best_clf.fit(X_train, y_train)
 
 # save the model
 filename = 'optuna_random_forest.sav'
-#pickle.dump(best_clf, open(filename, 'wb'))
-  
+pickle.dump(best_clf, open(filename, 'wb'))
+
 # load the model
 load_model = pickle.load(open(filename, 'rb'))
 
@@ -116,4 +116,4 @@ data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Iota.csv', index=False)
+data_2.to_csv('RF_optuna.csv', index=False)

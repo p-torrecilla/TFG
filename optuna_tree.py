@@ -4,7 +4,6 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
 import pandas as pd
-import graphviz
 from imblearn.under_sampling import RandomUnderSampler
 import pickle
 
@@ -89,8 +88,8 @@ best_clf.fit(X_train, y_train)
 
 # save the model
 filename = 'optuna_decision_tree.sav'
-#pickle.dump(best_clf, open(filename, 'wb'))
-  
+pickle.dump(best_clf, open(filename, 'wb'))
+
 # load the model
 load_model = pickle.load(open(filename, 'rb'))
 
@@ -118,19 +117,4 @@ data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Theta.csv', index=False)
-
-
-# Visualize the tree
-dot_data = export_graphviz(
-    best_clf,
-    out_file=None,
-    feature_names=X.columns,
-    class_names=["Malware", "Legitimate"],
-    filled=True,
-    rounded=True,
-    special_characters=True
-)
-
-graph = graphviz.Source(dot_data)
-graph.render("decision_tree", format="png", cleanup=True)
+data_2.to_csv('AD_optuna.csv', index=False)

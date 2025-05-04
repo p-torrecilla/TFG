@@ -21,7 +21,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 clf = RandomForestClassifier(n_estimators=100, random_state=1410)
 clf = clf.fit(X_train, y_train)
 
-
 y_pred = clf.predict(X_test)
 
 accuracy = accuracy_score(y_test, y_pred)
@@ -41,4 +40,4 @@ data_2 = pd.read_csv('malware-detection/test_data.csv', usecols=["ID"])
 
 # Creates the column for the predictions
 data_2["Prediction"] = prediction
-data_2.to_csv('Epsilon_pre.csv', index=False)
+data_2.to_csv('RF_original.csv', index=False)

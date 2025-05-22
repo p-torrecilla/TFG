@@ -5,7 +5,7 @@ import seaborn as sns
 
 
 # Threshold variable for the correlation decision
-threshold = 0.5
+#threshold = 0.3
 
 # Read from the tek CSV file
 data = pd.read_csv('malware-detection/tek_data.csv')
@@ -41,7 +41,7 @@ columns = [
 X = data[columns]
 
 #Using Pearson Correlation
-plt.figure(figsize=(12,10))
+plt.figure(figsize=(15,23))
 cor = X.corr()
 
 """"
@@ -53,4 +53,7 @@ print(relevant_features)
 """
 #Printing the map
 sns.heatmap(cor, annot=False, cmap=plt.cm.Reds)
+
+plt.savefig("heat_map.pdf", format="pdf", bbox_inches='tight', dpi=300)
+
 plt.show()
